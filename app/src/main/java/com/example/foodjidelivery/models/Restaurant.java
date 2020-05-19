@@ -1,5 +1,6 @@
 package com.example.foodjidelivery.models;
 
+import com.example.foodjidelivery.models.Notification.Food;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
