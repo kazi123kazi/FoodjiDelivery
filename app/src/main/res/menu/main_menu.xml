@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" tools:showIn="navigation_view">
+
+
+    <group android:checkableBehavior="single">
+        <!--        show all order assigned to this delivery guy-->
+        <item android:id="@+id/home"
+            android:icon="@drawable/twotone_home_24"
+            android:title="Home"/>
+<!--show notification-->
+        <item android:id="@+id/new_notification"
+            android:icon="@android:mipmap/sym_def_app_icon"
+            android:title="New Notifications"/>
+        <item
+            android:id="@+id/update"
+            android:icon="@drawable/baseline_update_black_18dp"
+            android:title="Update Info"/>
+
+        <item
+            android:id="@+id/contactus"
+            android:icon="@drawable/contactus"
+            android:title="Contact Us" />
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/twotone_power_settings_new_24"
+            android:title="Logout" />
+    </group>
+
+
+</menu>

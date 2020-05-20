@@ -60,12 +60,13 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.code()==200) {
                     Toast.makeText(getApplicationContext() , "Success!" , Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getBaseContext(),MainActivity.class);
-                    startActivity(intent);
+
 //
-                    //ResponseDeliveryBoy restaurantObj=response.body().getRestaurant();
+                    ResponseDeliveryBoy responseDeliveryBoy=response.body().getDeliveryGuy();
 
                     intent.putExtra("token", response.body().getToken());
-//                    intent.putExtra("name",restaurantObj.getName());
+                    intent.putExtra("name",responseDeliveryBoy.getName());
+                    startActivity(intent);
 //                    intent.putExtra("restId",restaurantObj.getRest_id());
 //                    intent.putExtra("address",restaurantObj.getAddress());
 //                    startActivity(intent);
