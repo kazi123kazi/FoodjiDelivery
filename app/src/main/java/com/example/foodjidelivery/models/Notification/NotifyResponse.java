@@ -1,15 +1,26 @@
 package com.example.foodjidelivery.models.Notification;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class NotifyResponse {
-       Restaurant restaurant;
-       User user;
+
+        @SerializedName("restaurant")
+        Restaurant restaurant;
+       @SerializedName("user")
+        User user;
+       @SerializedName("deliveryGuy")
        DeliveryGuy deliveryGuy;
+        @SerializedName("address")
        String address;
+        @SerializedName("payment")
        Payment payment;
+        @SerializedName("status")
        String status;
+        @SerializedName("_id")
        String _id;
+        @SerializedName("foods")
        List<Food> foods;  //each item is food object
 
     public NotifyResponse(Restaurant restaurant , User user , DeliveryGuy deliveryGuy , String address , Payment payment , String status , String _id , List<Food> foods) {
@@ -87,6 +98,7 @@ public class NotifyResponse {
         this.foods = foods;
     }
 }
+
 //{
 //        "restaurant": {
 //        "_id": "string",

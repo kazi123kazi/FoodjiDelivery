@@ -1,7 +1,11 @@
 package com.example.foodjidelivery.models.Notification;
 
+import com.google.gson.annotations.SerializedName;
+
 public class User {
+    @SerializedName("name")
     private String name;
+    @SerializedName("_id")
     private String _id;
 
     public User(String name , String _id) {

@@ -13,7 +13,7 @@ public class ResponseDeliveryBoy {
     @SerializedName("name")
     private String name;
 
-    @SerializedName("orders")
+//    @SerializedName("orders")
     private List<String> orders;
 
     private String  phone;

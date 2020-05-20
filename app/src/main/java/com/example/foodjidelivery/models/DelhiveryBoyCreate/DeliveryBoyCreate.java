@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class DeliveryBoyCreate {
     @SerializedName("super")
     private SuperAdminUser superAdminUser;
+
     private DeliveryBoyUser deliveryGuy;
 
 

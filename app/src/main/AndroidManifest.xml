@@ -12,6 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+
+            android:name=".ServiceClass.BackgroundService"
+            android:enabled="true" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"

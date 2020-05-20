@@ -1,5 +1,7 @@
 package com.example.foodjidelivery;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import com.example.foodjidelivery.FragmentClass.ContactUs;
 import com.example.foodjidelivery.FragmentClass.Home;
 import com.example.foodjidelivery.FragmentClass.Notifications;
+import com.example.foodjidelivery.ServiceClass.BackgroundService;
 import com.example.foodjidelivery.apifetch.FoodieClient;
 import com.example.foodjidelivery.apifetch.ServiceGenerator;
 import com.google.android.material.navigation.NavigationView;
@@ -87,57 +90,76 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //
 //
-        if (token != null) {
-            Log.d("TOKEN", token);
-            if (WelcomeActvity.getInstance() != null)
-                WelcomeActvity.getInstance().finish();
-        }//Log.d("Token",token);
-        //BackgroundService service= new BackgroundService(getApplication());
+            if (token != null) {
+                Log.d("TOKEN", token);
+                if (WelcomeActvity.getInstance() != null)
+                    WelcomeActvity.getInstance().finish();
+            }//Log.d("Token",token);
+            //BackgroundService service= new BackgroundService(getApplication());
+            startService(new Intent(this, BackgroundService.class));
+            Intent intent = getIntent();
+            Log.i("notificaton", String.valueOf(intent.getStringExtra("notification")));
+
+            // Set a Toolbar to replace the ActionBar.
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
+            // This will display an Up icon (<-), we will replace it with hamburger later
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+            nvDrawer = (NavigationView) findViewById(R.id.nvView);
 
 
-      //  startService(new Intent(this, BackgroundService.class));
+            //View headerLayout = nvDrawer.inflateHeaderView(R.layout.nav_header);
+            toggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            mDrawer.addDrawerListener(toggle);
+            toggle.syncState();
 
-        // Set a Toolbar to replace the ActionBar.
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        // This will display an Up icon (<-), we will replace it with hamburger later
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        // Find our drawer view
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        nvDrawer = (NavigationView) findViewById(R.id.nvView);
+            if (intent.getStringExtra("notification") != null) {
 
 
-        View headerView = nvDrawer.getHeaderView(0);
-        TextView userName = headerView.findViewById(R.id.userName);
-        userName.setText("USER: " + String.valueOf(user));
+                Fragment fragment = new Notifications();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.flContent, fragment).commit();
 
 
-        // Setup drawer view
-        setupDrawerContent(nvDrawer);
-        //FragmentManager fragmentManager=new F;
-
-        frameLayout = (FrameLayout) findViewById(R.id.flContent);
-        //View headerLayout = nvDrawer.inflateHeaderView(R.layout.nav_header);
-        toggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        fragmentManager = getSupportFragmentManager();
-        try {
-            fragmentManager.beginTransaction().replace(R.id.flContent, Home.class.newInstance(), "Home");
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        }
-        //set default fragment
-        loadFragment(new Home());
+            }
 
 
-        // We can now look up items within the header if needed
+            //  startService(new Intent(this, BackgroundService.class));
+
+
+            // Find our drawer view
+
+            else {
+                View headerView = nvDrawer.getHeaderView(0);
+                TextView userName = headerView.findViewById(R.id.userName);
+                userName.setText("USER: " + String.valueOf(user));
+
+
+                // Setup drawer view
+                setupDrawerContent(nvDrawer);
+                //FragmentManager fragmentManager=new F;
+
+                frameLayout = (FrameLayout) findViewById(R.id.flContent);
+
+
+                fragmentManager = getSupportFragmentManager();
+                try {
+                    fragmentManager.beginTransaction().replace(R.id.flContent, Home.class.newInstance(), "Home");
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                }
+                //set default fragment
+                loadFragment(new Home());
+
+            }
+            // We can now look up items within the header if needed
 
         // ImageView ivHeaderPhoto = headerLayout.findViewById(R.id.imageView);
 
@@ -316,4 +338,13 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
     }
 
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    Log.i("intentes","hjhj");
+        if (intent!=null)loadFragment(new Notifications());
+
+
+    }
 }

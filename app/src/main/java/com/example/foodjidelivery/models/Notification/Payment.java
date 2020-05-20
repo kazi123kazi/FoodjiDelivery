@@ -1,8 +1,13 @@
 package com.example.foodjidelivery.models.Notification;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Payment {
+    @SerializedName("status")
     private String status;
+    @SerializedName("method")
     private String method;
+    @SerializedName("total")
     private int total;
 
     public Payment(String status , String method , int total) {

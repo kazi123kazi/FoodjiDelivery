@@ -1,6 +1,8 @@
 package com.example.foodjidelivery;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -57,6 +59,9 @@ public class LoginActivity extends AppCompatActivity {
         call1.enqueue(new Callback<ResponseDeliveryBoyUser>() {
             @Override
             public void onResponse(Call<ResponseDeliveryBoyUser> call , Response<ResponseDeliveryBoyUser> response) {
+
+
+              Log.i("Error:", String.valueOf(response.message()));
                 if (response.code()==200) {
                     Toast.makeText(getApplicationContext() , "Success!" , Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getBaseContext(),MainActivity.class);
@@ -67,6 +72,16 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra("token", response.body().getToken());
                     intent.putExtra("name",responseDeliveryBoy.getName());
                     startActivity(intent);
+
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                    WelcomeActvity.token = response.body().getToken();
+                    editor.putString("name", response.body().getDeliveryGuy().getName());
+                    editor.putString("token", response.body().getToken());
+                    editor.commit();
 //                    intent.putExtra("restId",restaurantObj.getRest_id());
 //                    intent.putExtra("address",restaurantObj.getAddress());
 //                    startActivity(intent);

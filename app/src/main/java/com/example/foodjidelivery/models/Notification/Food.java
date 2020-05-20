@@ -7,7 +7,7 @@ public class Food {
     public String name;
 
     @SerializedName("price")
-    public String price;
+    public int price;
 
     @SerializedName("_id")
     String _id;
@@ -15,7 +15,7 @@ public class Food {
     @SerializedName("quantity")
     int count;
 
-    public Food(String name , String price , String _id , int count) {
+    public Food(String name , int price , String _id , int count) {
         this.name = name;
         this.price = price;
         this._id = _id;
@@ -30,11 +30,11 @@ public class Food {
         this.name = name;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

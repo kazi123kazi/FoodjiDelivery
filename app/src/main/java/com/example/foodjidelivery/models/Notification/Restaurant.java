@@ -1,8 +1,12 @@
 package com.example.foodjidelivery.models.Notification;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Restaurant {
 
+    @SerializedName("name")
     private String name;
+    @SerializedName("_id")
     private String _id;
 
     public Restaurant(String name , String _id) {
