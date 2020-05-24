@@ -8,6 +8,8 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +18,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.foodjidelivery.FragmentClass.Notifications;
 import com.example.foodjidelivery.apifetch.FoodieClient;
 import com.example.foodjidelivery.apifetch.ServiceGenerator;
 import com.example.foodjidelivery.models.Notification.Food;
@@ -56,8 +59,11 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
 
 
         holder.total.setText(String.valueOf(getTotal(items.get(position).getFoods())));
+        holder.order.setClickable(true);
 
         holder.restaurantName.setText(items.get(position).getRestaurant().getName());
+
+
 
     if (items.get(position).getFoods()!=null) {
         adapter = new FoodListAdapter(context);
@@ -70,7 +76,9 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
     holder.order.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            Notifications.loader.setVisibility(View.VISIBLE);
 
+            holder.order.setClickable(false);
 
             builder=new AlertDialog.Builder(new ContextThemeWrapper(context,R.style.AlertDialogCustom));
 
@@ -80,14 +88,17 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 
-                    assignOrder(MainActivity.token,items.get(position).get_id(),position);
 
+
+                    assignOrder(MainActivity.token,items.get(position).get_id(),position);
+                    Log.i("Positive Button:","TRUE");
 
 
                 }
             }).setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    builder.create().cancel();
 
                 }
             });
@@ -121,17 +132,18 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
             private TextView restaurantName;
             private TextView total;
             private RecyclerView recyclerView;
-            private CardView order;
-
+            private RelativeLayout order;
+            private ProgressBar loader;
+            private TextView mode;
 
         public CustomViewHolder(View view) {
             super(view);
-            order=view.findViewById(R.id.order);
+            order=view.findViewById(R.id.details);
             restaurantName=view.findViewById(R.id.restaurantName);
             total=view.findViewById(R.id.total);
             recyclerView=view.findViewById(R.id.foodList);
-
-
+            loader=view.findViewById(R.id.progressBar1);
+            mode=view.findViewById(R.id.mode);
 
         }
     }
@@ -157,6 +169,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
 
         Call<NotifyResponse> call= foodieClient.assignOrder(token,id);
 
+Log.i("Assignment:","True");
 
         call.enqueue(new Callback<NotifyResponse>() {
             @Override
@@ -166,6 +179,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
                     Toast.makeText(context,"ASSIGNED SUCCESSFULLY",Toast.LENGTH_SHORT).show();
                     Log.i("Assigned", String.valueOf(response.code()));
                     items.remove(position);
+                    Notifications.loader.setVisibility(View.GONE);
                     notifyDataSetChanged();
 
                 }
@@ -173,6 +187,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
 
             @Override
             public void onFailure(Call<NotifyResponse> call, Throwable t) {
+
+                    Log.i("Error:",t.getMessage());
 
             }
         });

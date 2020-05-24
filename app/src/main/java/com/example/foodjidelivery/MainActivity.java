@@ -90,6 +90,15 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //
 //
+        if (token == null) {
+            SharedPreferences sharedPreferences = getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            token = sharedPreferences.getString("token", null);
+        }
+
+
+
             if (token != null) {
                 Log.d("TOKEN", token);
                 if (WelcomeActvity.getInstance() != null)
@@ -117,16 +126,6 @@ public class MainActivity extends AppCompatActivity {
             mDrawer.addDrawerListener(toggle);
             toggle.syncState();
 
-            if (intent.getStringExtra("notification") != null) {
-
-
-                Fragment fragment = new Notifications();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-                transaction.replace(R.id.flContent, fragment).commit();
-
-
-            }
 
 
             //  startService(new Intent(this, BackgroundService.class));
@@ -134,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Find our drawer view
 
-            else {
+
                 View headerView = nvDrawer.getHeaderView(0);
                 TextView userName = headerView.findViewById(R.id.userName);
                 userName.setText("USER: " + String.valueOf(user));
@@ -143,27 +142,50 @@ public class MainActivity extends AppCompatActivity {
                 // Setup drawer view
                 setupDrawerContent(nvDrawer);
                 //FragmentManager fragmentManager=new F;
+        frameLayout = (FrameLayout) findViewById(R.id.flContent);
+        fragmentManager = getSupportFragmentManager();
 
-                frameLayout = (FrameLayout) findViewById(R.id.flContent);
+
+        if(intent.getStringExtra("notification")!=null){
 
 
-                fragmentManager = getSupportFragmentManager();
-                try {
-                    fragmentManager.beginTransaction().replace(R.id.flContent, Home.class.newInstance(), "Home");
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                }
-                //set default fragment
-                loadFragment(new Home());
+
+
+            try {
+                fragmentManager.beginTransaction().replace(R.id.flContent, Notifications.class.newInstance(), "Notification");
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            }
+            //set default fragment
+            loadFragment(new Notifications());
+
+
+        }
+
+        else{
+
+
+
+            try {
+                fragmentManager.beginTransaction().replace(R.id.flContent, Home.class.newInstance(), "Home");
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            }
+            //set default fragment
+            loadFragment(new Home());
+
+        }
+
 
             }
             // We can now look up items within the header if needed
 
         // ImageView ivHeaderPhoto = headerLayout.findViewById(R.id.imageView);
 
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -291,8 +313,9 @@ public class MainActivity extends AppCompatActivity {
 //        if (!searchView.isIconified()) {
 //            searchView.setIconified(true);
 //            return;
-//        }
+//
         super.onBackPressed();
+        finish();
     }
 
     public void LogoutUser() {
@@ -339,12 +362,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-    Log.i("intentes","hjhj");
-        if (intent!=null)loadFragment(new Notifications());
-
-
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 }
+
+
+
+

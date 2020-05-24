@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:elevation="@dimen/_5sdp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_10sdp">
+
+
+        <TextView
+            android:text="ORDER ID:"
+            android:textSize="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/id"
+
+            android:layout_marginBottom="@dimen/_25sdp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Restaurant:"
+            android:textSize="20dp"
+
+            android:layout_above="@+id/divider"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="restaurant name"
+            android:id="@+id/restaurantName"
+            android:layout_above="@+id/divider"
+            android:layout_toRightOf="@+id/id"
+            />
+        <TextView
+            android:id="@+id/orderId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_toRightOf="@+id/id"
+            android:text="Order Id" />
+
+        <TextView
+            android:id="@+id/itemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="Items" />
+
+
+        <TextView
+            android:id="@+id/itemQuantity"
+            android:layout_below="@+id/divider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_102sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="Quantity" />
+
+        <TextView
+            android:id="@+id/itemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_190sdp"
+            android:layout_below="@+id/divider"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="price" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/foodList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/itemPrice"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/foodList"
+            android:layout_marginLeft="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:text="TOTAL" />
+
+        <TextView
+            android:id="@+id/total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/foodList"
+            android:layout_marginLeft="@dimen/_200sdp"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:text="total price" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/total"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:text="Payment Mode" />
+
+        <TextView
+            android:id="@+id/mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/total"
+            android:layout_marginLeft="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:text="mode" />
+
+        <com.rey.material.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mode"
+            android:textStyle="bold"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="CUSTOMER NAME:"
+            android:id="@+id/customer"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/customer"
+            android:layout_below="@id/mode"
+            android:layout_marginLeft="@dimen/_7sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:id="@+id/customerName"
+            android:text="Customer Name"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/customer"
+            android:layout_marginTop="13dp"
+            android:layout_marginRight="@dimen/_50sdp"
+            android:id="@+id/address"
+            android:textStyle="bold"
+            android:layout_toLeftOf="@+id/customerName"
+            android:text="Address" />
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/id"
+
+            android:textStyle="bold" android:background="@android:color/darker_gray"
+            android:paddingTop="@dimen/_18sdp" />
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/foodList"
+            android:background="@android:color/darker_gray"
+            android:textStyle="bold"
+            android:paddingTop="@dimen/_18sdp" />
+
+
+        <TextView
+
+            android:textAlignment="viewStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/customer"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="-110sp"
+            android:layout_toLeftOf="@+id/address"
+
+            android:text="address."
+            android:id="@+id/customerAddress"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/customerAddress"
+            android:text="STATUS:"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_12sdp"
+            android:id="@+id/status"/>
+        <TextView
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/orderStatus"
+            android:layout_below="@id/customerAddress"
+
+            android:text="status"
+
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:layout_toRightOf="@+id/status"
+            android:layout_marginTop="@dimen/_10sdp"/>
+        />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

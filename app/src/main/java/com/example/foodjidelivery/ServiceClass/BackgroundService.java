@@ -15,6 +15,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.transition.Transition;
 
 import com.example.foodjidelivery.FragmentClass.Notifications;
 import com.example.foodjidelivery.MainActivity;
@@ -42,12 +43,18 @@ import retrofit2.Retrofit;
 
 
 public class BackgroundService extends Service {
+
+    public BackgroundService() {
+
+    }
+
+
     private static final String CHANNEL_ID = "1";
     Retrofit retrofit;
     public Order order;
     private Handler mHandler;
     // default interval for syncing data
-    public static final long DEFAULT_SYNC_INTERVAL = 5*1000;//30 sec
+    public static final long DEFAULT_SYNC_INTERVAL = 2*1000;//30 sec
 
     String json;
   //  MainActivity activity=new MainActivity();
@@ -55,6 +62,7 @@ public class BackgroundService extends Service {
 
     Context context;
 
+    String token=WelcomeActvity.token;
 
     public List<NotifyResponse> viewList = new ArrayList<>();
 
@@ -72,7 +80,7 @@ public class BackgroundService extends Service {
             //order=new Order(new User("8840102246",""),)
 
             Log.i("Running","true");
-            syncData(WelcomeActvity.token);
+            syncData(token);
             createNotificationChannel();
 
             // Repeat this runnable code block again every ... min
@@ -81,9 +89,42 @@ public class BackgroundService extends Service {
     };
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+
+
+
+        mHandler = new Handler();
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        getPrefernce(sharedPreferences);
+
+        token = sharedPreferences.getString("token", null);
+
+
+
+
+        // Execute a runnable task as soon as possible
+        mHandler.post(runnableService);
+
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Create the Handler object
         mHandler = new Handler();
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        token = sharedPreferences.getString("token", null);
+
+
+
+
         // Execute a runnable task as soon as possible
         mHandler.post(runnableService);
 
@@ -96,7 +137,6 @@ public class BackgroundService extends Service {
 
         Call<List<NotifyResponse>> call = foodieClient.getNotified(token);
         getPrefernce(sharedPreferences);
-
         Log.i("response", "heyy");
 
         call.enqueue(new Callback<List<NotifyResponse>>() {
@@ -108,12 +148,14 @@ public class BackgroundService extends Service {
                 if (response.body()!=null)
                 if (response.body().size() != 0) {
                     Log.i("ResponseUser", response.body().get(0).getUser().getName());
+                  if(viewList!=null)if (!viewList.get(viewList.size()-1).get_id().equals(response.body().get(response.body().size()-1).get_id())) sendNotification(response.body().get(response.body().size()-1));
+
                     viewList=new ArrayList<>(response.body().size());
                     viewList=response.body();
                     Log.i("ViewLis", String.valueOf(viewList.get(0).getFoods().get(0).getName()));
                     saveData(sharedPreferences);
                  //   for (int i=0;i<response.body().size();i++)
-                    sendNotification(response.body().get(response.body().size()-1));
+                 //   sendNotification(response.body().get(response.body().size()-1));
 
                 }
             }
@@ -132,17 +174,20 @@ public class BackgroundService extends Service {
 
     public void sendNotification(NotifyResponse order) {
         // Create an explicit intent for an Activity in your app
+
+
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("notification","yo");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         NotificationCompat.Builder builder;
         if (order != null) {
             builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_launcher_background)
-                    .setContentTitle("New Order")
-                    .setContentText(order.getUser().getName() + "\n" + "Total:" + getTotal(order.getFoods()))
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setSmallIcon(R.drawable.rest_icon)
+                    .setContentTitle("Check Pending Orders")
+                    .setContentText(order.getRestaurant().getName()+" "+viewList.size())
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true);
@@ -187,7 +232,7 @@ public class BackgroundService extends Service {
             json = sharedPreferences.getString("orderItems", null);
             String id = sharedPreferences.getString("rest_id", null);
             if (json != null) {
-                Type type = new TypeToken<List<Order>>() {
+                Type type = new TypeToken<List<NotifyResponse>>() {
                 }.getType();
                 viewList = gson.fromJson(json, type);
             }
@@ -214,6 +259,19 @@ public class BackgroundService extends Service {
     }
 
 
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+
+
+            Intent restartServiceIntent = new Intent(getApplicationContext(),this.getClass());
+            restartServiceIntent.putExtra("token",token);
+            restartServiceIntent.setPackage(getPackageName());
+
+             //   mHandler, Context.BIND_AUTO_CREATE);
+            startService(restartServiceIntent);
+
+        super.onTaskRemoved(rootIntent);
+    }
 }
 
 

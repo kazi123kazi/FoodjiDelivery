@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.foodjidelivery.OrdersAdapter;
 import com.example.foodjidelivery.R;
@@ -45,13 +46,14 @@ public class Notifications extends Fragment {
     public static Gson gson = new Gson();
     SharedPreferences preferences;
     public  String json;
+    public static ProgressBar loader;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_notifications , container , false);
         preferences = getActivity().getSharedPreferences("org.example.foodie" , MODE_PRIVATE);
         orderRecView = rootView.findViewById(R.id.allOrders);
-
+        loader=rootView.findViewById(R.id.progressBar1);
 
 /*
             toolbar=findViewById(R.id.toolbar);

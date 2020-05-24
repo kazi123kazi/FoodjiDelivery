@@ -1,5 +1,6 @@
 package com.example.foodjidelivery.apifetch;
 
+import com.example.foodjidelivery.models.DeliveryGuyMe;
 import com.example.foodjidelivery.models.Notification.NotifyResponse;
 import com.example.foodjidelivery.models.ResponseUser;
 import com.example.foodjidelivery.models.DelhiveryBoyCreate.DeliveryBoyCreate;
@@ -30,7 +31,8 @@ public interface FoodieClient {
     Call<List<NotifyResponse>> getNotified(@Header("Authorization") String token);
     @POST("deliveryguy/assign/{id}")
     Call<NotifyResponse> assignOrder(@Header("Authorization") String token, @Path("id") String id);
-
+    @GET("deliveryguy/me")
+    Call<DeliveryGuyMe> getOrders(@Header("Authorization") String token);
 
 
 

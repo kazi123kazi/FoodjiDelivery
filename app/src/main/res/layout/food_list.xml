@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_5sdp"
     android:foreground="@drawable/custom_ripple"
-    android:paddingTop="@dimen/_20sdp">
+    android:paddingTop="@dimen/_10sdp">
 
 
     <TextView

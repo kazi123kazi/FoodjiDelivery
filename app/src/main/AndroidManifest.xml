@@ -15,7 +15,10 @@
         <service
 
             android:name=".ServiceClass.BackgroundService"
-            android:enabled="true" />
+            android:enabled="true"
+            android:exported="true"
+
+            />
 
         <activity
             android:name=".MainActivity"

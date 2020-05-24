@@ -6,22 +6,22 @@ import java.util.List;
 
 public class NotifyResponse {
 
-        @SerializedName("restaurant")
-        Restaurant restaurant;
-       @SerializedName("user")
-        User user;
-       @SerializedName("deliveryGuy")
-       DeliveryGuy deliveryGuy;
-        @SerializedName("address")
-       String address;
-        @SerializedName("payment")
-       Payment payment;
-        @SerializedName("status")
-       String status;
-        @SerializedName("_id")
-       String _id;
-        @SerializedName("foods")
-       List<Food> foods;  //each item is food object
+    @SerializedName("restaurant")
+    Restaurant restaurant;
+    @SerializedName("user")
+    User user;
+    @SerializedName("deliveryGuy")
+    DeliveryGuy deliveryGuy;
+    @SerializedName("address")
+    String address;
+    @SerializedName("payment")
+    Payment payment;
+    @SerializedName("status")
+    String status;
+    @SerializedName("_id")
+    String _id;
+    @SerializedName("foods")
+    List<Food> foods;  //each item is food object
 
     public NotifyResponse(Restaurant restaurant , User user , DeliveryGuy deliveryGuy , String address , Payment payment , String status , String _id , List<Food> foods) {
         this.restaurant = restaurant;
